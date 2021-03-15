@@ -45,7 +45,19 @@ function __oc_update_ctx_prompt {
 }
 
 __oc_help_context_alias="  -c, --context-alias: Context alias as the shorthand of full context name"
-__oc_help_head="A shell wrapper of OpenShift Client to enhance its capability"
+__oc_help_head="
+An Enhanced Version of OpenShift Client
+
+NOTICE:
+
+This is not a replacement of the original OpenShift Client: https://github.com/openshift/oc/,
+but a shell on top of it that requires the original client to be installed at first. For more
+information, please check: https://github.com/morningspace/oc/.
+
+---------------------------------------------------------------------------------------------
+Below is the original help information of OpenShift Client
+---------------------------------------------------------------------------------------------
+"
 
 function oc {
   __oc_server=''
