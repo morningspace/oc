@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Enhanced OpenShift Client: Run oc more securely and efficiently
+# Enhanced OpenShift Client: Using oc more securely and efficiently
 # The original OpenShift Client: https://github.com/openshift/oc/
 # TODO:
 # - command prompt
@@ -27,11 +27,13 @@ function __oc_login_prompt {
 
   local arg_value
   read -r ${@:4} arg_value
+  [[ $4 == -s ]] && echo
   eval "$1=${arg_value:-$3}"
 }
 
 function __oc_login_gen_ctx_key {
   local ctx_key=`echo $1 | sed -n 's@^https*://@@p'`
+  ctx_key="${ctx_key:-$1}"
   ctx_key="${ctx_key//./-}"
   ctx_key="${ctx_key//:/-}"
   echo "$ctx_key"
@@ -76,7 +78,8 @@ function oc {
           shift
         else
           arg_value="$2"
-          shift; shift
+          shift
+          [[ -n $1 ]] && shift
         fi
         eval "$arg_name=$arg_value"
       else
