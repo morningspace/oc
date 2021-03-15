@@ -16,8 +16,6 @@
 
 # Enhanced OpenShift Client: Using oc more securely and efficiently
 # The original OpenShift Client: https://github.com/openshift/oc/
-# TODO:
-# - help
 
 function __oc_login_prompt {
   echo -n "$2"
@@ -46,13 +44,26 @@ function __oc_update_ctx_prompt {
   echo $ctx_alias
 }
 
+__oc_help_context_alias="  -c, --context-alias: Context alias as the shorthand of full context name"
+__oc_help_head="A shell wrapper of OpenShift Client to enhance its capability"
+
 function oc {
   __oc_server=''
   __oc_username=''
   __oc_password=''
   __oc_token=''
   __oc_context_alias=''
+  __oc_help=0
+
+  # Parse arguments
   __oc_positional=()
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      -h|--help) __oc_help=1; shift ;;
+      *) __oc_positional+=("$1"); shift ;;
+    esac
+  done
+  set -- ${__oc_positional[@]}
 
   # Preflight check
   local dependency
@@ -63,10 +74,18 @@ function oc {
     fi
   done
 
-  # Detect oc login withouth -h/--help
-  if [[ $1 == login && $2 != -h && $2 != --help ]]; then
-
+  # Display help information
+  if [[ $__oc_help == 1 ]]; then
+    if [[ $1 == login ]]; then
+      command oc $@ -h | sed -E "s/^Options:/Options:|$__oc_help_context_alias/g" | tr '|' '\n'
+    else
+      echo "$__oc_help_head"
+      command oc $@ -h
+    fi
+  elif [[ $1 == login ]]; then
+    # Detect oc login withouth -h/--help
     # Parse arguments
+    __oc_positional=()
     while [[ $# -gt 0 ]]; do
       local arg_name=""
       local arg_value=""
@@ -134,7 +153,6 @@ function oc {
       command oc ${__oc_positional[@]} -s $__oc_server -u $__oc_username -p $__oc_password
     else
       # Login then save context to secret store
-
       [[ -z $__oc_server ]] && __oc_server="${__oc_positional[2]}" && unset "__oc_positional[2]"
       [[ -z $__oc_server ]] && __oc_login_prompt "__oc_server" "Server" "https://localhost:8443"
 
