@@ -17,7 +17,6 @@
 # Enhanced OpenShift Client: Using oc more securely and efficiently
 # The original OpenShift Client: https://github.com/openshift/oc/
 # TODO:
-# - command prompt
 # - help
 
 function __oc_login_prompt {
@@ -36,7 +35,15 @@ function __oc_login_gen_ctx_key {
   ctx_key="${ctx_key:-$1}"
   ctx_key="${ctx_key//./-}"
   ctx_key="${ctx_key//:/-}"
+  ctx_key="${ctx_key//\//-}"
   echo "$ctx_key"
+}
+
+function __oc_update_ctx_prompt {
+  local ctx="$(__oc_login_gen_ctx_key $1)"
+  local ctx_key="$(gopass show -o ".map/$ctx" 2>/dev/null)"
+  ctx_key=${ctx_key:-$1}
+  echo $ctx_key
 }
 
 function oc {
@@ -147,6 +154,10 @@ function oc {
           echo "$__oc_username" | gopass insert -f "$__oc_context_key" username || return -1
           echo "$__oc_password" | gopass insert -f "$__oc_context_key" password || return -1
 
+          # Save the mapping of the encoded full context name and the context key
+          local ctx="$(__oc_login_gen_ctx_key $(command oc config current-context))"
+          echo "$__oc_context_key" | gopass insert -f ".map/$ctx" || return -1
+
           echo "Context saved successfully."
         fi
       fi
@@ -156,3 +167,7 @@ function oc {
     command oc $@
   fi
 }
+
+# Register custom context prompt function for kube-ps1
+# See: https://github.com/jonmosco/kube-ps1/
+KUBE_PS1_CLUSTER_FUNCTION=__oc_update_ctx_prompt
