@@ -15,6 +15,7 @@
 # limitations under the License.
 
 # Enhanced OpenShift Client: Run oc more securely and efficiently
+# The original OpenShift Client: https://github.com/openshift/oc/
 # TODO:
 # - command prompt
 # - help
@@ -29,11 +30,11 @@ function __oc_login_prompt {
   eval "$1=${arg_value:-$3}"
 }
 
-function __oc_login_gen_cred_key {
-  local cred_key=`echo $1 | sed -n 's@^https*://@@p'`
-  cred_key="${cred_key//./-}"
-  cred_key="${cred_key//:/-}"
-  echo "$cred_key"
+function __oc_login_gen_ctx_key {
+  local ctx_key=`echo $1 | sed -n 's@^https*://@@p'`
+  ctx_key="${ctx_key//./-}"
+  ctx_key="${ctx_key//:/-}"
+  echo "$ctx_key"
 }
 
 function oc {
@@ -41,7 +42,7 @@ function oc {
   __oc_username=''
   __oc_password=''
   __oc_token=''
-  __oc_credential_key=''
+  __oc_context_key=''
   __oc_positional=()
 
   # Preflight check
@@ -65,7 +66,7 @@ function oc {
         -u|--username|-u=*|--username=*) arg_name="__oc_username";;
         -p|--password|-p=*|--password=*) arg_name="__oc_password" ;;
         --token|--token=*) arg_name="__oc_token" ;;
-        -c|--credential-key|-c=*|--credential-key=*) arg_name="__oc_credential_key" ;;
+        -c|--context-key|-c=*|--context-key=*) arg_name="__oc_context_key" ;;
         *) arg_name="" ;;
       esac
 
@@ -84,66 +85,66 @@ function oc {
       fi
     done
 
-    # Login using credential from secret store
-    if [[ -n $__oc_credential_key && -z $__oc_server && -z $__oc_username && -z $__oc_password && -z $__oc_token ]]; then
-      local cred
-      local creds=($(gopass find $__oc_credential_key 2>/dev/null))
-      # Has credential(s)
-      if [[ -n ${creds[@]} ]]; then
-        # Has multiple credentials
-        if [[ ${#creds[@]} != 1 ]]; then
+    # Login using context from secret store
+    if [[ -n $__oc_context_key && -z $__oc_server && -z $__oc_username && -z $__oc_password && -z $__oc_token ]]; then
+      local ctx
+      local ctxs=($(gopass find $__oc_context_key 2>/dev/null))
+      # Has context(s)
+      if [[ -n ${ctxs[@]} ]]; then
+        # Has multiple contexts
+        if [[ ${#ctxs[@]} != 1 ]]; then
           # Use fzf
           if command -v fzf >/dev/null 2>&1; then
-            __oc_credential_key="$(for cred in "${creds[@]}"; do echo $cred; done | fzf)"
+            __oc_context_key="$(for ctx in "${ctxs[@]}"; do echo $ctx; done | fzf)"
           else
             # Use select
-            select cred in "${creds[@]}"; do
-              [[ ' '${creds[@]}' ' =~ ' '$cred' ' ]] && __oc_credential_key="$cred" && break
+            select ctx in "${ctxs[@]}"; do
+              [[ ' '${ctxs[@]}' ' =~ ' '$ctx' ' ]] && __oc_context_key="$ctx" && break
             done
           fi
-          [[ -z $__oc_credential_key ]] && echo "error: Credential key not found in secret store." && return -1
+          [[ -z $__oc_context_key ]] && echo "error: Context not found in secret store." && return -1
         fi
 
-        echo "Read login credential '$__oc_credential_key' from secret store..."
+        echo "Read context '$__oc_context_key' from secret store..."
 
-        __oc_server="$(gopass show -o "$__oc_credential_key" server 2>/dev/null)"
-        __oc_username="$(gopass show -o "$__oc_credential_key" username 2>/dev/null)"
-        __oc_password="$(gopass show -o "$__oc_credential_key" password 2>/dev/null)"
+        __oc_server="$(gopass show -o "$__oc_context_key" server 2>/dev/null)"
+        __oc_username="$(gopass show -o "$__oc_context_key" username 2>/dev/null)"
+        __oc_password="$(gopass show -o "$__oc_context_key" password 2>/dev/null)"
         
         [[ -z $__oc_server ]]   && echo "error: Server not found in secret store."   && return -1
         [[ -z $__oc_username ]] && echo "error: Username not found in secret store." && return -1
         [[ -z $__oc_password ]] && echo "error: Password not found in secret store." && return -1
 
-        echo "Login credential loaded successfully."
+        echo "Context loaded successfully."
       else
-        # Has no credential
-        echo "error: Credential key '$__oc_credential_key' not found in secret store." && return -1
+        # Has no context
+        echo "error: Context '$__oc_context_key' not found in secret store." && return -1
       fi
 
       command oc ${__oc_positional[@]} -s $__oc_server -u $__oc_username -p $__oc_password
     else
-      # Login then save credential to secret store
+      # Login then save context to secret store
 
       [[ -z $__oc_server ]] && __oc_server="${__oc_positional[2]}" && unset "__oc_positional[2]"
       [[ -z $__oc_server ]] && __oc_login_prompt "__oc_server" "Server" "https://localhost:8443"
 
-      # Do not save credential if token specified
+      # Do not save context if token specified
       if [[ -n $__oc_token ]]; then
         command oc ${__oc_positional[@]} -s $__oc_server --token $__oc_token
       else
         [[ -z $__oc_username ]] && __oc_login_prompt "__oc_username" "Username" "kubeadmin"
         [[ -z $__oc_password ]] && __oc_login_prompt "__oc_password" "Password" "" -s
         [[ -z $__oc_password ]] && echo "error: You must specify a password." && return -1
-        [[ -z $__oc_credential_key ]] && __oc_login_prompt "__oc_credential_key" "Credential key" "$(__oc_login_gen_cred_key $__oc_server)"
+        [[ -z $__oc_context_key ]] && __oc_login_prompt "__oc_context_key" "Context key" "$(__oc_login_gen_ctx_key $__oc_server)"
 
         if command oc ${__oc_positional[@]} -s $__oc_server -u $__oc_username -p $__oc_password; then
-          echo "Save login credential '$__oc_credential_key' into secret store..."
+          echo "Save context '$__oc_context_key' into secret store..."
 
-          echo "$__oc_server"   | gopass insert -f "$__oc_credential_key" server || return -1
-          echo "$__oc_username" | gopass insert -f "$__oc_credential_key" username || return -1
-          echo "$__oc_password" | gopass insert -f "$__oc_credential_key" password || return -1
+          echo "$__oc_server"   | gopass insert -f "$__oc_context_key" server || return -1
+          echo "$__oc_username" | gopass insert -f "$__oc_context_key" username || return -1
+          echo "$__oc_password" | gopass insert -f "$__oc_context_key" password || return -1
 
-          echo "Login credential saved successfully."
+          echo "Context saved successfully."
         fi
       fi
     fi
