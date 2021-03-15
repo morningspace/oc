@@ -16,7 +16,6 @@
 
 # Enhanced OpenShift Client: Run oc more securely and efficiently
 # TODO:
-# - support server w/o -s
 # - command prompt
 # - help
 
@@ -125,6 +124,7 @@ function oc {
     else
       # Login then save credential to secret store
 
+      [[ -z $__oc_server ]] && __oc_server="${__oc_positional[2]}" && unset "__oc_positional[2]"
       [[ -z $__oc_server ]] && __oc_login_prompt "__oc_server" "Server" "https://localhost:8443"
 
       # Do not save credential if token specified
