@@ -30,20 +30,20 @@ function __oc_login_prompt {
   eval "$1=${arg_value:-$3}"
 }
 
-function __oc_login_gen_ctx_key {
-  local ctx_key=`echo $1 | sed -n 's@^https*://@@p'`
-  ctx_key="${ctx_key:-$1}"
-  ctx_key="${ctx_key//./-}"
-  ctx_key="${ctx_key//:/-}"
-  ctx_key="${ctx_key//\//-}"
-  echo "$ctx_key"
+function __oc_login_gen_ctx_alias {
+  local ctx_alias=`echo $1 | sed -n 's@^https*://@@p'`
+  ctx_alias="${ctx_alias:-$1}"
+  ctx_alias="${ctx_alias//./-}"
+  ctx_alias="${ctx_alias//:/-}"
+  ctx_alias="${ctx_alias//\//-}"
+  echo "$ctx_alias"
 }
 
 function __oc_update_ctx_prompt {
-  local ctx="$(__oc_login_gen_ctx_key $1)"
-  local ctx_key="$(gopass show -o ".map/$ctx" 2>/dev/null)"
-  ctx_key=${ctx_key:-$1}
-  echo $ctx_key
+  local ctx="$(__oc_login_gen_ctx_alias $1)"
+  local ctx_alias="$(gopass show -o ".map/$ctx" 2>/dev/null)"
+  ctx_alias=${ctx_alias:-$1}
+  echo $ctx_alias
 }
 
 function oc {
@@ -51,7 +51,7 @@ function oc {
   __oc_username=''
   __oc_password=''
   __oc_token=''
-  __oc_context_key=''
+  __oc_context_alias=''
   __oc_positional=()
 
   # Preflight check
@@ -75,7 +75,7 @@ function oc {
         -u|--username|-u=*|--username=*) arg_name="__oc_username";;
         -p|--password|-p=*|--password=*) arg_name="__oc_password" ;;
         --token|--token=*) arg_name="__oc_token" ;;
-        -c|--context-key|-c=*|--context-key=*) arg_name="__oc_context_key" ;;
+        -c|--context-alias|-c=*|--context-alias=*) arg_name="__oc_context_alias" ;;
         *) arg_name="" ;;
       esac
 
@@ -96,30 +96,30 @@ function oc {
     done
 
     # Login using context from secret store
-    if [[ -n $__oc_context_key && -z $__oc_server && -z $__oc_username && -z $__oc_password && -z $__oc_token ]]; then
+    if [[ -n $__oc_context_alias && -z $__oc_server && -z $__oc_username && -z $__oc_password && -z $__oc_token ]]; then
       local ctx
-      local ctxs=($(gopass find $__oc_context_key 2>/dev/null))
+      local ctxs=($(gopass find $__oc_context_alias 2>/dev/null))
       # Has context(s)
       if [[ -n ${ctxs[@]} ]]; then
         # Has multiple contexts
         if [[ ${#ctxs[@]} != 1 ]]; then
           # Use fzf
           if command -v fzf >/dev/null 2>&1; then
-            __oc_context_key="$(for ctx in "${ctxs[@]}"; do echo $ctx; done | fzf)"
+            __oc_context_alias="$(for ctx in "${ctxs[@]}"; do echo $ctx; done | fzf)"
           else
             # Use select
             select ctx in "${ctxs[@]}"; do
-              [[ ' '${ctxs[@]}' ' =~ ' '$ctx' ' ]] && __oc_context_key="$ctx" && break
+              [[ ' '${ctxs[@]}' ' =~ ' '$ctx' ' ]] && __oc_context_alias="$ctx" && break
             done
           fi
-          [[ -z $__oc_context_key ]] && echo "error: Context not found in secret store." && return -1
+          [[ -z $__oc_context_alias ]] && echo "error: Context not found in secret store." && return -1
         fi
 
-        echo "Read context '$__oc_context_key' from secret store..."
+        echo "Read context '$__oc_context_alias' from secret store..."
 
-        __oc_server="$(gopass show -o "$__oc_context_key" server 2>/dev/null)"
-        __oc_username="$(gopass show -o "$__oc_context_key" username 2>/dev/null)"
-        __oc_password="$(gopass show -o "$__oc_context_key" password 2>/dev/null)"
+        __oc_server="$(gopass show -o "$__oc_context_alias" server 2>/dev/null)"
+        __oc_username="$(gopass show -o "$__oc_context_alias" username 2>/dev/null)"
+        __oc_password="$(gopass show -o "$__oc_context_alias" password 2>/dev/null)"
         
         [[ -z $__oc_server ]]   && echo "error: Server not found in secret store."   && return -1
         [[ -z $__oc_username ]] && echo "error: Username not found in secret store." && return -1
@@ -128,7 +128,7 @@ function oc {
         echo "Context loaded successfully."
       else
         # Has no context
-        echo "error: Context '$__oc_context_key' not found in secret store." && return -1
+        echo "error: Context '$__oc_context_alias' not found in secret store." && return -1
       fi
 
       command oc ${__oc_positional[@]} -s $__oc_server -u $__oc_username -p $__oc_password
@@ -145,18 +145,18 @@ function oc {
         [[ -z $__oc_username ]] && __oc_login_prompt "__oc_username" "Username" "kubeadmin"
         [[ -z $__oc_password ]] && __oc_login_prompt "__oc_password" "Password" "" -s
         [[ -z $__oc_password ]] && echo "error: You must specify a password." && return -1
-        [[ -z $__oc_context_key ]] && __oc_login_prompt "__oc_context_key" "Context key" "$(__oc_login_gen_ctx_key $__oc_server)"
+        [[ -z $__oc_context_alias ]] && __oc_login_prompt "__oc_context_alias" "Context alias" "$(__oc_login_gen_ctx_alias $__oc_server)"
 
         if command oc ${__oc_positional[@]} -s $__oc_server -u $__oc_username -p $__oc_password; then
-          echo "Save context '$__oc_context_key' into secret store..."
+          echo "Save context '$__oc_context_alias' into secret store..."
 
-          echo "$__oc_server"   | gopass insert -f "$__oc_context_key" server || return -1
-          echo "$__oc_username" | gopass insert -f "$__oc_context_key" username || return -1
-          echo "$__oc_password" | gopass insert -f "$__oc_context_key" password || return -1
+          echo "$__oc_server"   | gopass insert -f "$__oc_context_alias" server || return -1
+          echo "$__oc_username" | gopass insert -f "$__oc_context_alias" username || return -1
+          echo "$__oc_password" | gopass insert -f "$__oc_context_alias" password || return -1
 
-          # Save the mapping of the encoded full context name and the context key
-          local ctx="$(__oc_login_gen_ctx_key $(command oc config current-context))"
-          echo "$__oc_context_key" | gopass insert -f ".map/$ctx" || return -1
+          # Save the mapping of the encoded full context name and the context alias
+          local ctx="$(__oc_login_gen_ctx_alias $(command oc config current-context))"
+          echo "$__oc_context_alias" | gopass insert -f ".map/$ctx" || return -1
 
           echo "Context saved successfully."
         fi
