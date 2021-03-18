@@ -11,20 +11,20 @@ gopass needs some external programs to work:
 
 Assume you have already had these programs installed. If not, please check the [gopass doc](https://github.com/gopasspw/gopass/issues#pre-installation-steps). To make sure if these programs are installed:
 ```shell
-gpg --version # or gpg2 --version
-git --version
+$ gpg --version # or gpg2 --version
+$ git --version
 ```
 
 ### Setup GPG Key Pair
 
 gopass depends on the gpg program for encryption and decryption. You must have a suitable key pair to make it work. To list your current keys, you can do:
 ```shell
-gpg --list-secret-keys
+$ gpg --list-secret-keys
 ```
 
 You can choose an existing key from the list. If you don't have any key, or you want to use a new key, then you can do:
 ```shell
-gpg --full-generate-key
+$ gpg --full-generate-key
 ```
 
 **NOTE:**
@@ -45,7 +45,7 @@ gopass essentially uses git repository to store all encrypted data. This allows 
 
 As a private key is required for signing commits, we need to know the private key ID. To list all your keys for which you have both a public and private key:
 ```shell
-gpg --list-secret-keys --keyid-format LONG
+$ gpg --list-secret-keys --keyid-format LONG
 /root/.gnupg/secring.gpg
 ------------------------
 sec   2048R/FB8C81C172C9C86E 2021-03-17
@@ -55,7 +55,7 @@ ssb   2048R/B729258E1056C9D6 2021-03-17
 
 From the list, copy the key ID you'd like to use in `sec` line. In this example, it is `FB8C81C172C9C86E`, then config git to use it as the signing key:
 ```shell
-git config --global user.signingkey FB8C81C172C9C86E
+$ git config --global user.signingkey FB8C81C172C9C86E
 ```
 
 **NOTE:**
@@ -69,7 +69,7 @@ export GPG_TTY=$(tty)
 
 To make sure gpg itself works, you can run gpg to make a clear text signature:
 ```shell
-echo "test" | gpg --clearsign
+$ echo "test" | gpg --clearsign
 ```
 
 If everything works as expected, you should see the output similar as below:
@@ -95,17 +95,17 @@ LWf/OOYFt2b92+DiXjg5M/Fq7qpFqNkJKkqPdScHh2MrURRyM3LziJUHHbFbt58=
 
 Now you can test if git will use the specified key to sign the commits in your local branch. This is done by adding the `-S` flag to the `git commit` command:
 ```shell
-mkdir some-dir
-cd some-dir
-git init
-touch foo
-git add foo
-git commit -S -m "test"
+$ mkdir some-dir
+$ cd some-dir
+$ git init
+$ touch foo
+$ git add foo
+$ git commit -S -m "test"
 ```
 
 To verify the commit is signed by the key:
 ```shell
-git log --show-signature
+$ git log --show-signature
 commit 0051ff71a339338db381744eda24203095bc0c55
 gpg: Signature made Wed Mar 17 03:04:24 2021 PDT using RSA key ID 72C9C86E
 gpg: Good signature from "William <william@example.com>"
@@ -117,7 +117,7 @@ Date:   Wed Mar 17 03:04:19 2021 -0700
 
 To sign all commits by default in any local repository on your computer, you can do:
 ```
-git config --global commit.gpgsign true
+$ git config --global commit.gpgsign true
 ```
 
 ### Install gopass
@@ -128,20 +128,20 @@ After you finish all the above steps, you can go ahead to install gopass. The go
 
 For old RHEL distribution, `yum` is used to install package. The gopass installation requires `yum-plugin-copr` to be installed at first:
 ```shell
-yum -y install yum-plugin-copr
+$ yum -y install yum-plugin-copr
 ```
 
 After then, you can install gopass:
 ```shell
-yum copr enable daftaupe/gopass
-yum install gopass
+$ yum copr enable daftaupe/gopass
+$ yum install gopass
 ```
 
 ### Init gopass
 
 Before you start to use the enhanced OpenShift client, you need to initialize a store using gopass to host all encrypted data that will be read and written by the enhanced OpenShift client. Just do:
 ```shell
-gopass init
+$ gopass init
 ```
 
 This will prompt you for which GPG key you want to associate the store with. Let's use the same key that we specify to sign the git commits. It will also ask you to enter an email address for the store git config. Since the store is git repository, this will config the git repository to use the user with the specified email address as the author of each git commit.

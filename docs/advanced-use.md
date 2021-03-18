@@ -7,14 +7,14 @@ In a real project, it is common that you have many clusters to manage and each c
 This is natively supported by gopass because in gopass store, each secret data lives in its own file and related secret data can be put in the same directory. So, for example, if you have 3 clusters and want to store the contexts for them all, you can use the `path/to/your/context` format to name the context alias for the clusters.
 
 ```shell
-oc login -s https://api.foo.example.com -c dev-env/cluster-foo
-oc login -s https://api.bar.example.com -c dev-env/cluster-foo
-oc login -s https://api.baz.example.com -c dev-env/cluster-foo
+$ oc login -s https://api.foo.example.com -c dev-env/cluster-foo
+$ oc login -s https://api.bar.example.com -c dev-env/cluster-foo
+$ oc login -s https://api.baz.example.com -c dev-env/cluster-foo
 ```
 
 Then your cluster contexts will be organized hierachically in the gopass store and the directory structure maps to how you name the context alias. This can be seen with a very straightforward view by running `gopass ls`:
 ```shell
-gopass ls
+$ gopass ls
 gopass
 └── dev-env
     ├── cluster-foo
@@ -24,9 +24,9 @@ gopass
 
 When you switch among these clusters, you can use the `path/to/your/context` value to refer to the target cluster that you want to access:
 ```shell
-oc login -c dev-env/cluster-foo
-oc login -c dev-env/cluster-foo
-oc login -c dev-env/cluster-foo
+$ oc login -c dev-env/cluster-foo
+$ oc login -c dev-env/cluster-foo
+$ oc login -c dev-env/cluster-foo
 ```
 
 ### Choose Among Multiple Clusters
@@ -35,7 +35,7 @@ To organize cluster contexts hierarchically allows you to manage large amount of
 
 The enhanced oc supports partial input for context alias when you run `oc login`. For example, if you put all clusters for development in `dev-env` category, you can just input the first a few characters such as `de`, `dev`, `dev-`, `dev-env` when you specify the context alias. If there are multiple results that match your input, a numbered list will be presented. You can enter a number to chose one option in the list:
 ```shell
-oc login -c dev
+$ oc login -c dev
 1) dev-env/cluster-bar
 2) dev-env/cluster-baz
 3) dev-env/cluster-foo

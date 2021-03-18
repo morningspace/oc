@@ -4,7 +4,7 @@ The enhanced OpenShift Client (oc) is not a replacement of [the original OpenShi
 
 After you get the original client installed, it is easy to install the enhanced one since it is just a single script. You can download it from the git repository:
 ```shell
-curl -OL https://raw.githubusercontent.com/morningspace/oc/master/oc.sh
+$ curl -OL https://raw.githubusercontent.com/morningspace/oc/master/oc.sh
 ```
 
 Then add the following line to your `.bashrc` if you use Bash or whatever initialization file is used by your shell:
@@ -14,7 +14,7 @@ Then add the following line to your `.bashrc` if you use Bash or whatever initia
 
 To validate the installation:
 ```shell
-oc --help
+$ oc --help
 ```
 
 If you see a notice at the head of the normal oc help information as below:

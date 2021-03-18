@@ -3,13 +3,13 @@
 ### Login Cluster for the First Time
 
 Using enhanced oc, you can login cluster in a much efficient and secured way. To login to a cluster for the first time:
-```
-oc login
+```shell
+$ oc login
 ```
 
 It will prompt you for the URL of the server (or cluster) that you are about to access, the name and password of the login user. These are all features supported by the original oc. Besides that, it will ask you to enter an additional field called `context alias`. This is the shorthand of the full context name that represents which cluster you are accessing and which user account you are using to access this cluster. You will see how the context alias can be used to effectively manage multiple clusters access later in this document. Here is an example:
 ```shell
-oc login
+$ oc login
 Server [https://localhost:8443]: https://api.cluster-foo.example.com:6443
 Username [kubeadmin]:
 Password:
@@ -37,7 +37,7 @@ Run: gopass git remote add origin ...
 
 For some reason, you may have to re-login to a cluster. This is normal when the login credential to the cluster is expired. In such case, you need to re-run `oc login`. Different from the original oc, you don't have to provide all the information that you have already input the first time when you run `oc login` to access the cluster. This time the only information it needs is the `context alias`:
 ```shell
-oc login -c cluster-foo
+$ oc login -c cluster-foo
 Read context 'cluster-foo' from secret store...
 Context loaded successfully.
 Login successful.
