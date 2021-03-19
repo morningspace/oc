@@ -2,7 +2,7 @@
 
 The enhanced OpenShift CLI (or oc) is not a replacement of the original OpenShift CLI. It is essentially a shell on top of the original oc. By using enhanced oc, you can manage very large amount of clusters both in a secure and efficient manner with better team collaboration.
 
-![](assets/architecture.png)
+![](docs/assets/architecture.png)
 
 ### Advantages:
 
@@ -18,4 +18,4 @@ The enhanced oc supports all the original oc commands and their options, plus so
 * Organize many clusters hierarchically, switch among them efficiently by partial input, fuzzy search, nice shell prompt.
 * Share cluster context information with your team members for large scale project and team collaboration.
 
-![](assets/demo.gif)
+![](docs/assets/demo.gif)
