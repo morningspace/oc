@@ -1,6 +1,6 @@
 ## Installation
 
-The enhanced OpenShift CLI (or oc) is not a replacement of [the original OpenShift Client](https://github.com/openshift/oc/). It is essentially a shell on top of the original one. Before you install the enhanced oc, you must install the original oc first. To install it, please refer to the [OpenShift documentation](https://docs.openshift.com/container-platform/latest/cli_reference/openshift_cli/getting-started-cli.html#installing-openshift-cli).
+The enhanced OpenShift CLI (or oc) is not a replacement of [the original OpenShift Client](https://github.com/openshift/oc/). It is essentially a shell on top of the original oc. Before you install the enhanced oc, you must install the original oc first. To install it, please refer to the [OpenShift documentation](https://docs.openshift.com/container-platform/latest/cli_reference/openshift_cli/getting-started-cli.html#installing-openshift-cli).
 
 After you get the original oc installed, it is easy to install the enhanced one since it is just a single script. You can download it from GitHub:
 ```shell

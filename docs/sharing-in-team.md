@@ -1,8 +1,8 @@
 ## Sharing in Team
 
-Using enhanced oc and gopass can help you manage your cluster contexts efficiently and securely. But this only applies to your local work. If you want your team members to get these benefits as well, you can share your cluster contexts with them. It can be done by using gopass, because gopass is natively support secrets sharing among teams.
+Using enhanced oc and gopass can help you manage your cluster contexts securely and efficiently. But this only applies to your local work. If you want your team members to get these benefits as well, you can share your cluster contexts with them. It can be done by using gopass, because gopass is natively support secrets sharing among teams.
 
-### Step 1: Make local store sharable
+### Step 1: 👨 Make local store sharable
 
 If you have not created a local secret store yet, you can initialize a new one and push it to an empty remote git repository. For example:
 ```shell
@@ -32,7 +32,7 @@ Now you can push your local store to the remote git repository:
 $ git push -u origin master
 ```
 
-### Step 2: Clone a remote store
+### Step 2: 👩 Clone a remote store
 
 Now that you have a sharable remote store, every other team member can initialize a local store by cloning this remote store. Before that, please make sure you have granted sufficient permission for your team members to access the remote store. For example, if you use GitHub, this may require you to add your team member as collaborator into the git repository. After that, your team member can do:
 ```shell
@@ -72,7 +72,7 @@ $ gopass clone git@github.example.com:william/team-clusters.git team-clusters
 
 It may ask for the user name and email as git config for the store. Just input your team member's user name and email. After the sub-store is created, again your team member can run `gopass ls` to list the secrets and verify the result.
 
-### Step 3: Add team member as recipient
+### Step 3: 👩 Add team member as recipient
 
 After team members clone the store, in order to decrypt the secrets in the store, they need to add themselves to the recipients of that store and sync this change back to the remote. Before that, to view the current recipients of the store on your team member's machine:
 ```shell
@@ -121,7 +121,7 @@ gopass
     └── 0xFB8C81C172C9C86E - Nicole <nicole@example.com>
 ```
 
-### Step 4: Trust team member's public key and re-encrypt secrets
+### Step 4: 👨 Trust team member's public key and re-encrypt secrets
 
 Still, this is not enough yet as you need to trust the newly added public key and re-encrypt all secrets for it. This needs to be done on your machine. Before that, list the recipients on your machine to make sure only yourself is in the list:
 ```shell
@@ -172,7 +172,7 @@ $ gopass recipients add nicole@example.com --store team-clusters
 $ gopass sync
 ```
 
-### Step 5: Re-sync from remote store
+### Step 5: 👩 Re-sync from remote store
 
 Since the secrets have been re-encrypted by you, your team members need to do another sync to retrieve the changes from remote store:
 ```shell

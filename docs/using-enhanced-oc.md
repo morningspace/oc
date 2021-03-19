@@ -1,6 +1,6 @@
 ## Using Enhanced OpenShift CLI
 
-By using enhanced OpenShift CLI, you can manage very large amount of clusters both in an efficient and secure manner. Read below topics to get more understanding on how to use this tool:
+By using enhanced OpenShift CLI, you can manage very large amount of clusters both in a secure and efficient manner. Read below topics to get more understanding on how to use this tool:
 
 | Title                                   | Description
 |:----------------------------------------|:-------------

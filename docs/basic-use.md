@@ -2,7 +2,7 @@
 
 ### Login cluster for the first time
 
-Using enhanced oc, you can login cluster in a more efficient and secure manner. To login to a cluster for the first time:
+Using enhanced oc, you can login cluster in a more secure and efficient manner. To login to a cluster for the first time:
 ```shell
 $ oc login
 ```
@@ -50,5 +50,5 @@ Using project "default".
 This is because all the information you previously input for this cluster has been saved in gopass secret store with a context alias pointing to it. So, you just specify the context alias, and the enhanced oc will load all the necessary information by the context alias in order to login the cluster.
 
 This is truely powerful for two reasons:
-* **Security**: In a real project with many clusters bumping up and down, it is usally very hard for people to remember the password of every single cluster. As a result, you may have to write down the passwords somewhere in plain text which is not a good practice from security perspective. By using the enhanced oc, since clusters access information including the passwords are all encrypted and saved in a secret store. You don't need to worry about the sensitive information disclosure.
+* **Security**: In a real project with many clusters bumping up and down, it is usally very hard for people to remember the password of every single cluster. As a result, you may have to write down the passwords somewhere in plain text which is not a good practice from security perspective. By using the enhanced oc, since clusters access information including the passwords are all encrypted and saved in a secret store. You don't need to worry about any sensitive information disclosure.
 * **Efficiency**: It is not just the password that is hard to remember in a real project, usually the server URL of the short-lived cluster is also hard to remember. By using the enhanced oc, these information are all saved in the secret store, and referenced by a context alias which is human-memorable. With that, for the access to a partilucar cluster, you only need to remember the context alias. This is very helpful if you have many clusters to manage.

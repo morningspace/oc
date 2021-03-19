@@ -14,8 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Enhanced OpenShift Client: Using oc more securely and efficiently
-# The original OpenShift Client: https://github.com/openshift/oc/
+# Enhanced OpenShift CLI: Using oc more securely and efficiently
+# The original OpenShift CLI: https://github.com/openshift/oc/
 
 function __oc_login_prompt {
   echo -n "$2"
