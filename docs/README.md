@@ -15,3 +15,5 @@ The enhanced oc supports all the original oc commands and their options, plus so
 * Login a cluster with full context information provided only once, then use an alias to re-login at any time.
 * Organize many clusters hierarchically, switch among them efficiently by partial input, fuzzy search, nice shell prompt.
 * Share cluster context information with your team members for large scale project and team collaboration.
+
+![](assets/architecture.png)
