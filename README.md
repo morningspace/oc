@@ -1,1 +1,1 @@
-# An Enhanced Version of OpenShift Client
+# An Enhanced Version of OpenShift CLI

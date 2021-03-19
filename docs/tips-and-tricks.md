@@ -1,8 +1,8 @@
 ## Tips and Tricks
 
-### Avoid the passphrase prompt every time on Linux and MacOS
+### Avoid the passphrase prompt every time on MacOS and Linux
 
-When you generate the public and private key pair using `gpg`, you will be prompted to input a passphrase. Usually it is recommended that you should pick a very long passphrase, not just a simple password. It should be stronger than any secret you save in the secret store using `gopass`.
+When you generate the public and private key pair using `gpg`, you will be prompted to input a passphrase. Usually it is recommended that you should pick a very long passphrase, not just a simple password. It should be stronger than any secret you save in the secret store.
 
 However, that makes it annoying as anytime when you read or write the secret store, you will be prompted for the passphrase.
 
@@ -54,9 +54,9 @@ References
 
 ### Suppress the message "you need a passphrase to unlock the secret"
 
-When you decrypt data using `gopass show` on some Linux machine, it will print the message as below for the passphrase even that you have already cached it using `gpg-agent`.
+When you decrypt data using `gopass show` on some Linux systems, it may print below message even that you have cached the passphrase using `gpg-agent`.
 ```shell
-$ gopass show team-cluster-contexts/dev-env/cluster-foo
+$ gopass show dev-env/cluster-foo
 
 You need a passphrase to unlock the secret key for
 user: "Nicole <nicole@example.com>"
@@ -65,10 +65,10 @@ user: "Nicole <nicole@example.com>"
 
 This is actually caused by `gpg` which is a dependency of `gopass`. You will see the same message when use `gpg` to decrypt data and the message can not be suppressed even you redirect the `stderr` output to `/dev/null`:
 ```shell
-$ gpg -d ~/.local/share/gopass/stores/team-cluster-contexts/dev-env/cluster-foo.gpg 2>/dev/null
+$ gpg -d ~/.local/share/gopass/stores/dev-env/cluster-foo.gpg 2>/dev/null
 
 You need a passphrase to unlock the secret key for
-user: "root <moyingbj@cn.ibm.com>"
+user: "Nicole <nicole@example.com>"
 2048-bit RSA key, ID 21DEB23E, created 2021-03-13 (main key ID F8D7E33F)
 ```
 

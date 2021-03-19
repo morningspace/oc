@@ -1,6 +1,6 @@
-## Preparing gopass
+## Preparation
 
-Before you install gopass there are a few things you need to do.
+The enhanced OpenShift CLI depends on `gopass` to store data securely. It requires you to install `gopass` first. This docoment is intended to walk you through all necessary setups needed before and after you install `gopass`.
 
 ### Install Dependencies
 
@@ -9,7 +9,7 @@ gopass needs some external programs to work:
 * gpg: for data encryption and decryption, preferably in version 2 or later
 * git: for encrypted data storing and sharing
 
-Assume you have already had these programs installed. If not, please check the [gopass doc](https://github.com/gopasspw/gopass/issues#pre-installation-steps). To make sure if these programs are installed:
+Assume you have already had these programs installed. If not, please refer to the [gopass documentation](https://github.com/gopasspw/gopass/issues#pre-installation-steps). To make sure if these programs are installed:
 ```shell
 $ gpg --version # or gpg2 --version
 $ git --version
@@ -31,19 +31,19 @@ $ gpg --full-generate-key
 
 You may notice some gpg installations may use different option. The above command can work on my MacOS laptop and a RHEL8 machine, but it does not work on another RHEL7 machine, where I have to use `gpg --gen-key` instead. Please refer to the help information of the gpg that you use if you met problems.
 
-After run above command, you will be presented with several questions. Please check the [gopass doc](https://github.com/gopasspw/gopass/issues#set-up-a-gpg-key-pair) on how to answer these questions. After you finish the questionnaire, gpg will start to generate the key pair for you.
+After run above command, you will be presented with several questions. Please refer to the [gopass documentation](https://github.com/gopasspw/gopass/issues#set-up-a-gpg-key-pair) on how to answer these questions. After you finish the questionnaire, gpg will start to generate the key pair for you.
 
 **NOTE:**
 
-It may take more time as you expect to generate the key which makes you think gpg is hung. Just be patient and wait for gpg to be finished. Or as it's recommended in gopass doc, you can have either `rng-tools` or `haveged` installed to speed up key generation.
+It may take more time than you expect to generate the key pair which makes you think gpg is hung. Just be patient and wait for gpg to be finished. Or as it's recommended in gopass doc, you can have either `rng-tools` or `haveged` installed to speed up key generation.
 
-After the program finishes, you will have a public and private key pair for later use.
+After the program is finished, you will have a public and private key pair for later use.
 
 ### Git and GPG
 
 gopass essentially uses git repository to store all encrypted data. This allows gopass to share the data to the remote using git. Any change made to the data will be performed as a git commit. gopass will configure git to sign commits by default, so you should make sure that git can interface with gpg by telling git to use the key we choose when signs commits.
 
-As a private key is required for signing commits, we need to know the private key ID. To list all your keys for which you have both a public and private key:
+As a private key is required for signing commits, we need to know the private key ID. To list all your private keys:
 ```shell
 $ gpg --list-secret-keys --keyid-format LONG
 /root/.gnupg/secring.gpg
@@ -93,7 +93,7 @@ LWf/OOYFt2b92+DiXjg5M/Fq7qpFqNkJKkqPdScHh2MrURRyM3LziJUHHbFbt58=
 -----END PGP SIGNATURE-----
 ```
 
-Now you can test if git will use the specified key to sign the commits in your local branch. This is done by adding the `-S` flag to the `git commit` command:
+Now you can test if git will use the specified key to sign the commits on your local branch. This is done by adding the `-S` flag to the `git commit` command:
 ```shell
 $ mkdir some-dir
 $ cd some-dir
@@ -115,18 +115,18 @@ Date:   Wed Mar 17 03:04:19 2021 -0700
     test
 ```
 
-To sign all commits by default in any local repository on your computer, you can do:
+To sign all commits by default in any local repository on your machine, you can do:
 ```
 $ git config --global commit.gpgsign true
 ```
 
 ### Install gopass
 
-After you finish all the above steps, you can go ahead to install gopass. The gopass installation is quite straightforward, please check the [gopass doc](https://github.com/gopasspw/gopass/issues#installation-steps) to see the instructions for gopass installation steps on different platforms.
+After you finish all the above steps, you can go ahead to install gopass. The gopass installation is quite straightforward, please refer to the [gopass documentation](https://github.com/gopasspw/gopass/issues#installation-steps) to see the instructions for gopass installation steps on different platforms.
 
 **NOTE:**
 
-For old RHEL distribution, `yum` is used to install package. The gopass installation requires `yum-plugin-copr` to be installed at first:
+For old RHEL distribution, `yum` is used to install package. The gopass installation requires `yum-plugin-copr` to be installed first:
 ```shell
 $ yum -y install yum-plugin-copr
 ```
@@ -139,7 +139,7 @@ $ yum install gopass
 
 ### Init gopass
 
-Before you start to use the enhanced OpenShift client, you need to initialize a store using gopass to host all encrypted data that will be read and written by the enhanced OpenShift client. Just do:
+Before you start to use the enhanced OpenShift CLI, you need to initialize a store using gopass to host all encrypted data that will be read and written by the enhanced OpenShift CLI. Just do:
 ```shell
 $ gopass init
 ```
