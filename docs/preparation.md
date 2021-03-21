@@ -29,13 +29,13 @@ $ gpg --full-generate-key
 
 **NOTE:**
 
-You may notice some gpg installations may use different option. The above command can work on my MacOS laptop and a RHEL8 machine, but it does not work on another RHEL7 machine, where I have to use `gpg --gen-key` instead. Please refer to the help information of the gpg that you use if you met problems.
+> You may notice some gpg installations may use different option. The above command can work on my MacOS laptop and a RHEL8 system, but it does not work on a RHEL7 system, where I have to use `gpg --gen-key` instead. Please refer to the help information of the gpg that you use if you met problems.
 
 After run above command, you will be presented with several questions. Please refer to the [gopass documentation](https://github.com/gopasspw/gopass/issues#set-up-a-gpg-key-pair) on how to answer these questions. After you finish the questionnaire, gpg will start to generate the key pair for you.
 
 **NOTE:**
 
-It may take more time than you expect to generate the key pair which makes you think gpg is hung. Just be patient and wait for gpg to be finished. Or as it's recommended in gopass doc, you can have either `rng-tools` or `haveged` installed to speed up key generation.
+> It may take more time than you expect to generate the key pair which makes you think gpg is hung. Just be patient and wait for gpg to be finished. Or as it's recommended in gopass documentation, you can have either `rng-tools` or `haveged` installed to speed up key generation.
 
 After the program is finished, you will have a public and private key pair for later use.
 
@@ -60,7 +60,7 @@ $ git config --global user.signingkey FB8C81C172C9C86E
 
 **NOTE:**
 
-Some gpg installations on Linux may require you to use `gpg2 --list-keys --keyid-format LONG` to view the key list. In this case you will also need to configure git to use gpg2 by running `git config --global gpg.program gpg2`.
+> Some gpg installations on Linux may require you to use `gpg2 --list-keys --keyid-format LONG` to view the key list. In this case you will also need to configure git to use gpg2 by running `git config --global gpg.program gpg2`.
 
 If you aren't using the GPG suite, you should also add the following lines to your `.bashrc` if you use Bash or whatever initialization file is used by your shell:
 ```shell
@@ -126,10 +126,10 @@ After you finish all the above steps, you can go ahead to install gopass. The go
 
 **NOTE:**
 
-For old RHEL distribution, `yum` is used to install package. The gopass installation requires `yum-plugin-copr` to be installed first:
-```shell
-$ yum -y install yum-plugin-copr
-```
+> For old RHEL distribution, `yum` is used to install package. The gopass installation requires `yum-plugin-copr` to be installed first:
+> ```shell
+> $ yum -y install yum-plugin-copr
+> ```
 
 After then, you can install gopass:
 ```shell

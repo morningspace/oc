@@ -13,7 +13,7 @@ This will create a new secret store as a local git repository, connect it to the
 
 **NOTE:**
 
-Althouth you can use HTTPS when connect to the remote git server such as GitHub, it is recommanded to use SSH. With SSH keys, you can connect to GitHub without supplying your username and personal access token at each visit. For how to connect to GitHub with SSH, please refer to the [GitHub documentation](https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh).
+> Althouth you can use HTTPS when connect to the remote git server such as GitHub, it is recommanded to use SSH. With SSH keys, you can connect to GitHub without supplying your username and personal access token at each visit. For how to connect to GitHub with SSH, please refer to the [GitHub documentation](https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh).
 
 If you already have a local store and want to share with your team members. You can do:
 ```shell

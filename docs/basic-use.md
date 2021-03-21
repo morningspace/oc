@@ -27,7 +27,8 @@ Of course just as the original oc does, you can specify all the above informatio
 
 **NOTE:**
 
-When run `oc login`, you may see some warnings as below. Don't worry. This is because your gopass store has not been setup for remote sharing which will be discussed later in this document. Also, if you are using newer version of gopass such as `1.12.x`, you will not see such warning:
+> When run `oc login`, you may see some warnings as below. Don't worry. This is because your gopass store has not been setup for remote sharing which will be discussed later in this document. Also, if you are using newer version of gopass such as `1.12.x`, you will not see such warning:
+
 ```
 Warning: git has no remote. Ignoring auto-push option
 Run: gopass git remote add origin ...

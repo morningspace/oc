@@ -32,4 +32,4 @@ That means you have successfully installed the enhanced oc and the original oc h
 
 **NOTE:**
 
-The enhanced OpenShift CLI has been tested on MacOS and Linux.
+> The enhanced OpenShift CLI has been tested on MacOS and Linux.
