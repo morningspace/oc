@@ -18,7 +18,7 @@ $ oc --help
 ```
 
 If you see a notice at the head of the normal oc help information as below:
-```shell
+```
 An Enhanced Version of OpenShift Client
 
 NOTICE:

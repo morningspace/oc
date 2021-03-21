@@ -154,7 +154,7 @@ gpg> save
 ```
 
 When trust the key, you will be prompted with a list:
-```shell
+```
   1 = I don't know or won't say
   2 = I do NOT trust
   3 = I trust marginally
@@ -180,8 +180,8 @@ $ gopass sync
 ```
 
 After that, they will be able to fully use the store. For example, to decrypt the secret, there will be no error anymore:
-```
-gopass show team-clusters/dev-env/cluster-bar
+```shell
+$ gopass show team-clusters/dev-env/cluster-bar
 ```
 
 ### References

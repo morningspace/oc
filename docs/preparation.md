@@ -116,7 +116,7 @@ Date:   Wed Mar 17 03:04:19 2021 -0700
 ```
 
 To sign all commits by default in any local repository on your machine, you can do:
-```
+```shell
 $ git config --global commit.gpgsign true
 ```
 
