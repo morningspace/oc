@@ -113,11 +113,12 @@ function oc {
       if [[ -n $arg_name ]]; then
         if [[ $1 =~ .*=.* ]]; then
           arg_value="${1#*=}"
+          __oc_positional+=($1)
           shift
         else
           arg_value="$2"
-          shift
-          [[ -n $1 ]] && shift
+          __oc_positional+=($1) && shift
+          [[ -n $1 ]] && __oc_positional+=($1) && shift
         fi
         eval "$arg_name=$arg_value"
       else
@@ -162,22 +163,22 @@ function oc {
         echo "error: Context '$__oc_context_alias' not found in secret store." && return -1
       fi
 
-      command oc ${__oc_positional[@]} -s $__oc_server -u $__oc_username -p $__oc_password
+      command oc ${__oc_positional[@]}
     else
       # Login then save context to secret store
-      [[ -z $__oc_server ]] && __oc_server="${__oc_positional[2]}" && unset "__oc_positional[2]"
+      [[ -z $__oc_server ]] && __oc_server="${__oc_positional[@]:1}"
       [[ -z $__oc_server ]] && __oc_login_prompt "__oc_server" "Server" "https://localhost:8443"
 
       # Do not save context if token specified
       if [[ -n $__oc_token ]]; then
-        command oc ${__oc_positional[@]} -s $__oc_server --token $__oc_token
+        command oc ${__oc_positional[@]}
       else
         [[ -z $__oc_username ]] && __oc_login_prompt "__oc_username" "Username" "kubeadmin"
         [[ -z $__oc_password ]] && __oc_login_prompt "__oc_password" "Password" "" -s
         [[ -z $__oc_password ]] && echo "error: You must specify a password." && return -1
         [[ -z $__oc_context_alias ]] && __oc_login_prompt "__oc_context_alias" "Context alias" ""
 
-        if command oc ${__oc_positional[@]} -s $__oc_server -u $__oc_username -p $__oc_password && [[ -n $current-context ]]; then
+        if command oc ${__oc_positional[@]} && [[ -n $current-context ]]; then
           echo "Save context '$__oc_context_alias' into secret store..."
 
           echo "$__oc_server"   | gopass insert -f "$__oc_context_alias" server || return -1
