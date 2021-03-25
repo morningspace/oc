@@ -45,14 +45,11 @@ function __oc_update_ctx_prompt {
 }
 
 __oc_help_context_alias="  -c, --context-alias: Context alias as the shorthand of full context name"
-__oc_help_head="
-An Enhanced Version of OpenShift Client
+__oc_help_head="An Enhanced Version of OpenShift Client
 
-NOTICE:
-
-This is not a replacement of the original OpenShift Client: https://github.com/openshift/oc/,
-but a shell on top of it that requires the original client to be installed at first. For more
-information, please check: https://github.com/morningspace/oc/.
+This is not a replacement of the original OpenShift Client, but a shell on top of it which 
+requires the original client to be installed at first. For more information, please check: 
+https://github.com/morningspace/oc/.
 
 ---------------------------------------------------------------------------------------------
 Below is the original help information of OpenShift Client
@@ -67,12 +64,16 @@ function oc {
   __oc_context_alias=''
   __oc_help=0
 
+  if [[ $# == 0 ]]; then
+    echo "$__oc_help_head"; command oc; return
+  fi
+
   # Parse arguments
   __oc_positional=()
   while [[ $# -gt 0 ]]; do
     case "$1" in
-      -h|--help) __oc_help=1; shift ;;
-      *) __oc_positional+=("$1"); shift ;;
+      -h|--help|help) __oc_help=1; shift ;;
+      *)  __oc_positional+=("$1"); shift ;;
     esac
   done
   set -- ${__oc_positional[@]}
@@ -91,7 +92,6 @@ function oc {
     if [[ $1 == login ]]; then
       command oc $@ -h | sed -E "s/^Options:/Options:|$__oc_help_context_alias/g" | tr '|' '\n'
     else
-      echo "$__oc_help_head"
       command oc $@ -h
     fi
   elif [[ $1 == login ]]; then
@@ -175,9 +175,9 @@ function oc {
         [[ -z $__oc_username ]] && __oc_login_prompt "__oc_username" "Username" "kubeadmin"
         [[ -z $__oc_password ]] && __oc_login_prompt "__oc_password" "Password" "" -s
         [[ -z $__oc_password ]] && echo "error: You must specify a password." && return -1
-        [[ -z $__oc_context_alias ]] && __oc_login_prompt "__oc_context_alias" "Context alias" "$(__oc_login_gen_ctx_alias $__oc_server)"
+        [[ -z $__oc_context_alias ]] && __oc_login_prompt "__oc_context_alias" "Context alias" ""
 
-        if command oc ${__oc_positional[@]} -s $__oc_server -u $__oc_username -p $__oc_password; then
+        if command oc ${__oc_positional[@]} -s $__oc_server -u $__oc_username -p $__oc_password && [[ -n $current-context ]]; then
           echo "Save context '$__oc_context_alias' into secret store..."
 
           echo "$__oc_server"   | gopass insert -f "$__oc_context_alias" server || return -1
