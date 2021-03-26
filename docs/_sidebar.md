@@ -1,3 +1,4 @@
+* [Quick Start](quick-start.md)
 * [Preparation](preparation.md)
 * [Installation](installation.md)
 * [Using Enhanced oc](using-enhanced-oc.md)
