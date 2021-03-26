@@ -9,7 +9,7 @@ gopass needs some external programs to work:
 * gpg: for data encryption and decryption, preferably in version 2 or later
 * git: for encrypted data storing and sharing
 
-Assume you have already had these programs installed. If not, please refer to the [gopass documentation](https://github.com/gopasspw/gopass/issues#pre-installation-steps). To make sure if these programs are installed:
+Assume you have already had these programs installed. If not, please refer to the [gopass documentation](https://github.com/gopasspw/gopass/blob/master/docs/setup.md#pre-installation-steps). To make sure if these programs are installed:
 ```shell
 $ gpg --version # or gpg2 --version
 $ git --version

@@ -14,18 +14,16 @@ Then add the following line to your `.bashrc` if you use Bash or whatever initia
 
 To validate the installation:
 ```shell
-$ oc --help
+$ oc
 ```
 
 If you see a notice at the head of the normal oc help information as below:
 ```
 An Enhanced Version of OpenShift Client
 
-NOTICE:
-
-This is not a replacement of the original OpenShift Client: https://github.com/openshift/oc/,
-but a shell on top of it that requires the original client to be installed at first. For more
-information, please check: https://github.com/morningspace/oc/.
+This is not a replacement of the original OpenShift Client, but a shell on top of it which
+requires the original client to be installed at first. For more information, please check:
+https://github.com/morningspace/oc/.
 ```
 
 That means you have successfully installed the enhanced oc and the original oc has been nicely "hacked" with this shell. It supports all the original oc commands and their options, plus some additional cool features that will be explored later in this document.
