@@ -102,25 +102,25 @@ function oc {
       local arg_name=""
       local arg_value=""
       case "$1" in
-        -s|--server|-s=*|--server=*) arg_name="__oc_server" ;;
-        -u|--username|-u=*|--username=*) arg_name="__oc_username";;
-        -p|--password|-p=*|--password=*) arg_name="__oc_password" ;;
-        --token|--token=*) arg_name="__oc_token" ;;
-        -c|--context-alias|-c=*|--context-alias=*) arg_name="__oc_context_alias" ;;
+        -s|--server|-s=*|--server=*) arg_name="server" ;;
+        -u|--username|-u=*|--username=*) arg_name="username";;
+        -p|--password|-p=*|--password=*) arg_name="password" ;;
+        --token|--token=*) arg_name="token" ;;
+        -c|--context-alias|-c=*|--context-alias=*) arg_name="context_alias" ;;
         *) arg_name="" ;;
       esac
 
       if [[ -n $arg_name ]]; then
         if [[ $1 =~ .*=.* ]]; then
-          arg_value="${1#*=}"
-          __oc_positional+=($1)
-          shift
+          arg_value="${1#*=}"; shift
         else
-          arg_value="$2"
-          __oc_positional+=($1) && shift
-          [[ -n $1 ]] && __oc_positional+=($1) && shift
+          arg_value="$2"; shift
+          [[ -n $arg_value ]] && shift
         fi
-        eval "$arg_name=$arg_value"
+        eval "__oc_$arg_name=$arg_value"
+        if [[ $arg_name != context_alias ]]; then
+          __oc_positional+=("--$arg_name $arg_value")
+        fi
       else
         __oc_positional+=("$1")
         shift
@@ -145,6 +145,8 @@ function oc {
             done
           fi
           [[ -z $__oc_context_alias ]] && echo "error: Context not found in secret store." && return -1
+        else
+          __oc_context_alias="${ctxs[0]}"
         fi
 
         echo "Read context '$__oc_context_alias' from secret store..."
@@ -156,6 +158,10 @@ function oc {
         [[ -z $__oc_server ]]   && echo "error: Server not found in secret store."   && return -1
         [[ -z $__oc_username ]] && echo "error: Username not found in secret store." && return -1
         [[ -z $__oc_password ]] && echo "error: Password not found in secret store." && return -1
+
+        __oc_positional+=("--server $__oc_server")
+        __oc_positional+=("--username $__oc_username")
+        __oc_positional+=("--password $__oc_password")
 
         echo "Context loaded successfully."
       else
