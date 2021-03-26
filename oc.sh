@@ -172,7 +172,7 @@ function oc {
       command oc ${__oc_positional[@]}
     else
       # Login then save context to secret store
-      [[ -z $__oc_server ]] && __oc_server="${__oc_positional[@]:1}"
+      [[ -z $__oc_server ]] && __oc_server="${__oc_positional[@]:1:1}"
       [[ -z $__oc_server ]] && __oc_login_prompt "__oc_server" "Server" "https://localhost:8443"
 
       # Do not save context if token specified
