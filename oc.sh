@@ -146,7 +146,7 @@ function oc {
           fi
           [[ -z $__oc_context_alias ]] && echo "error: Context not found in secret store." && return -1
         else
-          __oc_context_alias="${ctxs[0]}"
+          __oc_context_alias="${ctxs[@]}"
         fi
 
         echo "Read context '$__oc_context_alias' from secret store..."
@@ -159,7 +159,7 @@ function oc {
         [[ -z $__oc_username ]] && echo "error: Username not found in secret store." && return -1
         [[ -z $__oc_password ]] && echo "error: Password not found in secret store." && return -1
 
-        __oc_positional+=("-s $__oc_server")
+        __oc_positional+=("$__oc_server")
         __oc_positional+=("-u $__oc_username")
         __oc_positional+=("-p $__oc_password")
 
@@ -169,7 +169,7 @@ function oc {
         echo "error: Context '$__oc_context_alias' not found in secret store." && return -1
       fi
 
-      command oc ${__oc_positional[@]}
+      command oc `echo ${__oc_positional[@]}`
     else
       # Login then save context to secret store
       [[ -z $__oc_server ]] && __oc_server="${__oc_positional[@]:1:1}"
