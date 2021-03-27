@@ -119,7 +119,7 @@ function oc {
         fi
         eval "__oc_$arg_name=$arg_value"
         if [[ $arg_name != context_alias ]]; then
-          __oc_positional+=("--$arg_name $arg_value")
+          __oc_positional+=("--$arg_name=$arg_value")
         fi
       else
         __oc_positional+=("$1")
@@ -159,9 +159,9 @@ function oc {
         [[ -z $__oc_username ]] && echo "error: Username not found in secret store." && return -1
         [[ -z $__oc_password ]] && echo "error: Password not found in secret store." && return -1
 
-        __oc_positional+=("--server $__oc_server")
-        __oc_positional+=("--username $__oc_username")
-        __oc_positional+=("--password $__oc_password")
+        __oc_positional+=("-s $__oc_server")
+        __oc_positional+=("-u $__oc_username")
+        __oc_positional+=("-p $__oc_password")
 
         echo "Context loaded successfully."
       else
