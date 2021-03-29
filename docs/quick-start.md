@@ -73,6 +73,10 @@ $ gopass git remote add origin git@github.example.com:william/team-clusters.git
 $ gopass git push origin master
 ```
 
+**NOTE:**
+
+> Althouth you can use HTTPS when connect to the remote git server such as GitHub, it is recommanded to use SSH. With SSH keys, you can connect to GitHub without supplying your username and personal access token at each visit. For how to connect to GitHub with SSH, please refer to the [GitHub documentation](https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh).
+
 In order to get your team members onboard. Please ask them to install all needed programs by following the instructions in [Install](#Install) section and generate the private and public key pair by following the instructions in [Setup](#Setup) section.
 
 Then ask them to export the public key and send to you. To find the public key ID:
@@ -116,9 +120,9 @@ $ gopass recipients add 93E7B0300BB9C91B
 
 All the above changes that you made locally will be auto-synced to the remote store.
 
-Now you can ask your team members to clone the remote store to their local machines. Please make sure your team members have been invited as collaborators to your remote store or GitHub repository. Your team member can clone the store from GitHub:
+Now you can ask your team members to clone the remote store to their local machines. Please make sure your team members have been invited as collaborators to your remote store (the GitHub repository). Your team members can clone the store from GitHub:
 ```shell
 $ gopass --yes setup --remote git@github.example.com:william/team-clusters.git --alias team-clusters --name Nicole --email "nicole@example.com"
 ```
 
-Then they can run `oc login` and use the alias defined by you to login clusters.
+For `--name` and `--email`, input those that are used by your team members when they generate the private and public key pair. Then they can run `oc login` and use the alias defined by you to login clusters.

@@ -83,3 +83,7 @@ References:
 
 * https://stackoverflow.com/questions/37763170/git-signed-commits-how-to-suppress-you-need-a-passphrase-to-unlock-the-secret
 * https://unix.stackexchange.com/questions/212950/silent-gnupg-password-request-with-bash-commands/212953#212953
+
+### Fix the error "Store is already initialized"
+
+When you try to create a new secret store, you may encounter error such as "Store is already initialized". This is because you have already created a store with the same name. If the existing store is not the one that you expect, you can delete it before you create a new one. This can be done by manually locating the store directory and deleting it. Usually the store directory is in `$HOME/.local/share/gopass/stores`. Find the store that you want to delete in this directory, delete the whole directory of that store. Then you can create the new store.
