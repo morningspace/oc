@@ -2,6 +2,8 @@
 
 Using enhanced oc and gopass can help you manage your cluster contexts securely and efficiently. But this only applies to your local work. If you want your team members to get these benefits as well, you can share your cluster contexts with them. It can be done by using gopass, because gopass is natively support secrets sharing among teams.
 
+![](assets/team-sharing.png)
+
 ### Step 1: 👨 Make local store sharable
 
 If you have not created a local secret store yet, you can initialize a new one and push it to an empty remote git repository. For example:

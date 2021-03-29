@@ -65,6 +65,8 @@ Now you can run the enhanced oc. When you run `oc login` to log into a cluster f
 
 > If you run the enhanced oc only for personal use, then you can ignore this section. For those who are team members do not own the secret store, you just need to generate the private and public key pair, export the public key and send it to store owner, then wait for the reply before you can clone the remote store to your local machine. More on this, please read below instructions.
 
+![](assets/team-sharing-qs.png)
+
 If you want to share your cluster access information saved in your local secret store to your team members. Add git remote and push local secret store to the remote:
 ```shell
 $ gopass git remote add origin git@github.example.com:william/team-clusters.git
