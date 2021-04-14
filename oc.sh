@@ -219,9 +219,18 @@ function __oc_login {
     else
       [[ -z $__oc_server ]] && __oc_server="${__oc_positional[@]}"
       [[ -z $__oc_server ]] && __oc_login_prompt "__oc_server" "Server" "https://localhost:8443"
+      __oc_positional+=("$__oc_server")
+
       [[ -z $__oc_username ]] && __oc_login_prompt "__oc_username" "Username" "kubeadmin"
+      __oc_flags+=("-u" "$__oc_username")
+
       [[ -z $__oc_password ]] && __oc_login_prompt "__oc_password" "Password" "" -s
-      [[ -z $__oc_password ]] && echo "error: You must specify a password." && return 1
+      if [[ -z $__oc_password ]]; then
+        echo "error: You must specify a password." && return 1
+      else
+        __oc_flags+=("-p" "$__oc_password")
+      fi
+
       [[ -z $__oc_context_alias ]] && __oc_login_prompt "__oc_context_alias" "Context alias" ""
 
       if command oc login ${__oc_positional[@]} ${__oc_flags[@]} && [[ -n $__oc_context_alias ]]; then
