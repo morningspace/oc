@@ -8,7 +8,7 @@ The enhanced OpenShift CLI (or oc) is not a replacement of the original OpenShif
 
 * **Security**: Cluster access data including password are all encrypted and saved in a secret store to avoid sensitive information disclosure.
 * **Efficiency**: Login to a cluster can be done by using a human-memorable alias without specifying the full cluster access information.
-* **Team collaborion**: The same set of cluster access information can be shared with and reused by your team members in a secure way.
+* **Team collaboration**: The same set of cluster access information can be shared with and reused by your team members in a secure way.
 
 ### Features
 

@@ -12,7 +12,7 @@ $ oc login -s https://api.bar.example.com -c dev-env/cluster-bar
 $ oc login -s https://api.baz.example.com -c dev-env/cluster-baz
 ```
 
-Then your cluster contexts will be organized hierachically in the secret store and the directory structure maps to how you name the context alias. This can be seen with a very straightforward view by running `gopass ls`:
+Then your cluster contexts will be organized hierarchically in the secret store and the directory structure maps to how you name the context alias. This can be seen with a very straightforward view by running `gopass ls`:
 ```shell
 $ gopass ls
 gopass

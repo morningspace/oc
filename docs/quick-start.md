@@ -75,7 +75,7 @@ $ gopass git push origin master
 
 **NOTE:**
 
-> Althouth you can use HTTPS when connect to the remote git server such as GitHub, it is recommanded to use SSH. With SSH keys, you can connect to GitHub without supplying your username and personal access token at each visit. For how to connect to GitHub with SSH, please refer to the [GitHub documentation](https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh).
+> Although you can use HTTPS when connect to the remote git server such as GitHub, it is recommended to use SSH. With SSH keys, you can connect to GitHub without supplying your username and personal access token at each visit. For how to connect to GitHub with SSH, please refer to the [GitHub documentation](https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh).
 
 In order to get your team members onboard. Please ask them to install all needed programs by following the instructions in [Install](#Install) section and generate the private and public key pair by following the instructions in [Setup](#Setup) section.
 
@@ -94,7 +94,7 @@ Pick the one that matches your team member's name and email address, copy the ke
 $ gpg --armor --export 93E7B0300BB9C91B > nicole_pub.gpg
 ```
 
-After you recieve the public key from your team member, import into your local machine:
+After you receive the public key from your team member, import into your local machine:
 ```shell
 $ gpg --import nicole_pub.gpg
 ```
