@@ -1,0 +1,151 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Managing OpenShift Clusters Securely and Effectively</title>
+
+    <link rel="shortcut icon" type="image/png" href="https://kubernetes.io/images/favicon.png">
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/night.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <section>
+              <img src="https://morningspace.github.io/assets/images/lab/k8s/openshift.png" style="border: 0; background-color: #111111" width="15%" />
+              <h3>Managing Your OpenShift Clusters Securely and Effectively</h3>
+              <p><a href="https://morningspace.github.io/">MorningSpace</a></p>
+            </section>
+            <section>
+              <section data-markdown>
+                ## The Problem
+                * Work with many clusters simultaneously.
+                * Each cluster requires login credential.
+                * Save login credential somewhere in plain text is insecure.
+                * The login session will be expired after a while.
+                * Clusters from a pool are short-lived with access information:
+                  * Hard to remember.
+                  * Easy to be out-of-date.
+              </section>
+              <section data-markdown>
+                ## Enhanced OpenShift CLI
+                * A shell on top of the original OpenShift CLI (oc command).
+                * Allow you to manage large amount of OCP clusters securely and efficiently.
+                * Supports all original oc commands plus:
+                  * Login cluster with full context information provided only once, then use alias to re-login at any time.
+                  * Organize many clusters hierarchically, switch among them by partial input and fuzzy search with nice shell prompt.
+                  * Share cluster context with your team members for large scale project and team collaboration.
+              </section>
+              <section>
+                <h2>Behind the Scene</h2>
+                <ul>
+                  <li>Use gopass to save cluster context into local secret store.
+                  <li>Maps cluster context to human-memorable alias.
+                  <li>Use git to share cluster contexts remotely.
+                </ul>
+                <img src="../docs/assets/architecture.png" style="border: 0; background-color: #111111" width="60%" />
+              </section>
+            </section>
+            <section>
+              <section data-markdown>
+                ## Getting Started
+                * [Install enhanced oc and its dependencies](https://morningspace.github.io/oc/docs/#/quick-start?id=install)
+                  * oc: the original OpenShift CLI for cluster manipulation
+                  * gopass: run on top of gpg and git for secret data management
+                  * gpg: for data encryption and decryption
+                  * git: for encrypted data storing and sharing
+                * [Setup environment](https://morningspace.github.io/oc/docs/#/quick-start?id=setup)
+                * [Login cluster for the first time](https://morningspace.github.io/oc/docs/#/basic-use?id=login-cluster-for-the-first-time)
+                * [Login cluster using context alias](https://morningspace.github.io/oc/docs/#/basic-use?id=login-cluster-using-context-alias)
+              </section>
+              <section data-markdown>
+                ## More Stories
+                * [Organize cluster contexts hierarchically](https://morningspace.github.io/oc/docs/#/advanced-use?id=organize-cluster-contexts-hierarchically)
+                * [Choose among multiple clusters](https://morningspace.github.io/oc/docs/#/advanced-use?id=choose-among-multiple-clusters)
+                  * [Fuzzy search](https://morningspace.github.io/oc/docs/#/advanced-use?id=fuzzy-search)
+                * [Customize shell prompt](https://morningspace.github.io/oc/docs/#/advanced-use?id=customize-the-shell-prompt)
+              </section>
+              <section data-markdown>
+                ## Team Sharing
+                * [Setup for team member](https://morningspace.github.io/oc/docs/#/quick-start?id=setup-for-team-member)
+                ![](../docs/assets/team-sharing-qs.png)
+              </section>
+              <section>
+                <img src="images/learn-more.png" style="border: 0; background-color: #111111" width="25%" />
+                <p>
+                <ul>
+                  <li><a href="https://medium.com/tag/enhanced-oc">https://medium.com/tag/enhanced-oc</a></li>
+                  <li><a href="https://morningspace.github.io/oc">https://morningspace.github.io/oc</a></li>
+                  <li><a href="https://github.com/morningspace/oc">https://github.com/morningspace/oc</a></li>
+                  <a class="github-button" href="https://github.com/morningspace/oc/subscription" data-icon="octicon-eye" data-size="large" aria-label="Watch morningspace/oc on GitHub">Watch</a>
+                  <a class="github-button" href="https://github.com/morningspace/oc" data-icon="octicon-star" data-size="large" aria-label="Star morningspace/oc on GitHub">Star</a>
+                  <a class="github-button" href="https://github.com/morningspace/oc/fork" data-icon="octicon-repo-forked" data-size="large" aria-label="Fork morningspace/oc on GitHub">Fork</a>
+                  <li><a href="https://github.com/morningspace/oc/issues">https://github.com/morningspace/oc/issues</a></li>
+                </ul>
+              </p>
+              </section>
+            </section>
+            <section>
+              <h2>Thanks !</h2>
+              <p style='text-align:left'>
+              Find me by visiting:
+              <ul>
+                <li><a href="https://github.com/morningspace">https://github.com/morningspace</a>
+                <li><a href="http://morningspace.medium.com">http://morningspace.medium.com</a>
+                <li><a href="https://www.youtube.com/channel/UCRFLHaVUn7bNvWLK8nFAVJA">https://www.youtube.com/channel/UCRFLHaVUn7bNvWLK8nFAVJA</a>
+              <ul>
+              </p>
+            </section>
+        </div>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+        // More info https://github.com/hakimel/reveal.js#configuration
+        Reveal.initialize({
+            history: true,
+            transition: 'convex',
+
+            // More info https://github.com/hakimel/reveal.js#dependencies
+            dependencies: [{
+                src: 'plugin/markdown/marked.js'
+            }, {
+                src: 'plugin/markdown/markdown.js'
+            }, {
+                src: 'plugin/notes/notes.js',
+                async: true
+            }, {
+                src: 'plugin/highlight/highlight.js',
+                async: true,
+                callback: function() {
+                    hljs.initHighlightingOnLoad();
+                }
+            }, {
+                src: 'plugin/zoom-js/zoom.js',
+                async: true
+            }]
+        });
+    </script>
+</body>
+
+</html>
