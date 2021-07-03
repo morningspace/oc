@@ -179,7 +179,7 @@ function __oc_login {
       # Context(s) found
       if (( $ctx_num > 1 )); then
         # Multiple contexts found
-        if command -v fzf >/dev/null 2>&1; then
+        if [[ -z $__oc_no_fzf ]] && command -v fzf >/dev/null 2>&1; then
           # Use fzf
           __oc_context_alias="$(for ctx in "${ctx_arr[@]}"; do echo $ctx; done | fzf)"
         else
